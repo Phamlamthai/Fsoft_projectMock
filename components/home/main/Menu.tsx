@@ -33,7 +33,7 @@ export default function Menu() {
         </li>
         <div className={styles.menu__list}>
           {menuArray.map((item, i) => (
-            <li>
+            <li key={i}>
               <Link legacyBehavior href={item.link}>
                 <a>
                   {i == 0 ? (
