@@ -5,6 +5,7 @@ import styles from "@/styles/Home.module.scss";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import axios from "axios";
+import Main from "@/components/home/main";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +14,11 @@ export default function home({ country }) {
   return (
     <>
       <Header country={country} />
-      <div className={styles.home}></div>
+      <div className={styles.home}>
+        <div className={styles.container}>
+          <Main />
+        </div>
+      </div>
       <Footer />
     </>
   );
