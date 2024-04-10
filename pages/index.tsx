@@ -7,11 +7,16 @@ import Footer from "@/components/footer";
 import axios from "axios";
 import Main from "@/components/home/main";
 import FlashDeals from "@/components/home/flashDeals";
+import db from "@/utils/db";
+import Product from "@/models/Product";
+import ProductCard from "@/components/products";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function home({ country }) {
+export default function home({ country, products }) {
   // console.log({ country });
+  console.log("products", products);
+
   return (
     <>
       <Header country={country} />
@@ -19,6 +24,11 @@ export default function home({ country }) {
         <div className={styles.container}>
           <Main />
           <FlashDeals />
+          <div className={styles.products}>
+            {products.map((product: any) => (
+              <ProductCard product={product} key={product._id} />
+            ))}
+          </div>
         </div>
       </div>
       <Footer />
@@ -26,8 +36,9 @@ export default function home({ country }) {
   );
 }
 export async function getServerSideProps() {
-  // db.connectDb();
-  // let products = await Product.find().sort({ createdAt: -1 }).lean();
+  db.connectDb();
+  let products = await Product.find().sort({ createdAt: -1 }).lean();
+  console.log(products);
   let data = await axios
     .get("https://api.ipregistry.co/?key=5pkrc8g2c4pib5mi")
     .then((res) => {
@@ -40,7 +51,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      // products: JSON.parse(JSON.stringify(products)),
+      products: JSON.parse(JSON.stringify(products)),
       // country: { name: data.name, flag: data.flag.emojitwo },
       country: {
         name: "Viet Nam",
