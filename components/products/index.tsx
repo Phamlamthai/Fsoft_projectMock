@@ -36,7 +36,7 @@ export default function ProductCard({ product }) {
   return (
     <div className={styles.product}>
       <div className={styles.product__container}>
-        <a href="" target="_blank">
+        <a href={`/product/${product.slug}?style=${active}`}>
           <div>
             <ProductSwiper images={images} />
           </div>
