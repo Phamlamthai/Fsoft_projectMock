@@ -106,7 +106,7 @@ const userSchema = new Schema<IUser>(
       {
         product: {
           type: ObjectId,
-          ref: "Product",
+          ref: "Product", // Assuming you have a separate Product model
         },
         style: {
           type: String,

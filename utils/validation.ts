@@ -21,7 +21,7 @@ export const validateCreateProduct = (product, images) => {
     });
   } else {
     checks.push({
-      msg: `${images.length} images chosen.`,
+      msg: `${images.length} images choosen.`,
       type: "success",
     });
   }
@@ -32,7 +32,7 @@ export const validateCreateProduct = (product, images) => {
     });
   } else {
     checks.push({
-      msg: `Product color has been chosen.`,
+      msg: `Product color been choosen.`,
       type: "success",
     });
   }
@@ -43,20 +43,20 @@ export const validateCreateProduct = (product, images) => {
     });
   } else {
     checks.push({
-      msg: `Product style image been chosen.`,
+      msg: `Product style image been choosen.`,
       type: "success",
     });
   }
   for (var i = 0; i < sizes.length; i++) {
     if (sizes[i].qty == "" || sizes[i].price == "" || sizes[i].size == "") {
       checks.push({
-        msg: `Please fill all information on sizes.`,
+        msg: `Please fill all informations on sizes.`,
         type: "error",
       });
       break;
     } else {
       checks.push({
-        msg: `At least one size/qty/price added.`,
+        msg: `Atleast one size/qty/price added.`,
         type: "success",
       });
     }
@@ -64,7 +64,7 @@ export const validateCreateProduct = (product, images) => {
   for (var i = 0; i < details.length; i++) {
     if (details[i].name == "" || details[i].value == "") {
       checks.push({
-        msg: `Please fill all information on details.`,
+        msg: `Please fill all informations on details.`,
         type: "error",
       });
       break;
@@ -78,13 +78,13 @@ export const validateCreateProduct = (product, images) => {
   for (var i = 0; i < questions.length; i++) {
     if (questions[i].question == "" || details[i].answer == "") {
       checks.push({
-        msg: `Please fill all information on questions.`,
+        msg: `Please fill all informations on questions.`,
         type: "error",
       });
       break;
     } else {
       checks.push({
-        msg: `At least one question added.`,
+        msg: `Atleast one question added.`,
         type: "success",
       });
     }
