@@ -3,20 +3,21 @@ import db from "../../utils/db";
 import Product from "../../models/Product";
 import Category from "../../models/Category";
 import SubCategory from "../../models/SubCategory";
-// import User from "../../models/User";
+import User from "../../models/User";
 import Head from "next/head";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { produceWithPatches } from "immer";
 import { useState } from "react";
-import MainSwiper from "@/components/productPage/mainSwiper";
-import Infos from "@/components/productPage/infos";
+import MainSwiper from "@/components/productPage/mainSwiper/MainSwiper";
+import Infos from "@/components/productPage/infos/Infos";
+// import Infos from "../../components/productPage/infos";
 // import Reviews from "../../components/productPage/reviews";
 // import ProductsSwiper from "../../components/productsSwiper";
 export default function product({ product, related }) {
   const [activeImg, setActiveImg] = useState("");
   const country = {
-    name: "Viet Nam",
+    name: "VietNam",
     flag: "https://cdn-icons-png.flaticon.com/512/197/197551.png?w=360",
   };
 
@@ -30,7 +31,7 @@ export default function product({ product, related }) {
         <div className={styles.product__container}>
           <div className={styles.path}>
             Home / {product.category.name}
-            {product.subCategories.map((sub) => (
+            {product.subCategories.map((sub: any) => (
               <span>/{sub.name}</span>
             ))}
           </div>
@@ -58,7 +59,7 @@ export async function getServerSideProps(context) {
   let product = await Product.findOne({ slug })
     .populate({ path: "category", model: Category })
     .populate({ path: "subCategories", model: SubCategory })
-    // .populate({ path: "reviews.reviewBy", model: User })
+    .populate({ path: "reviews.reviewBy", model: User })
     .lean();
   let subProduct = product.subProducts[style];
   let prices = subProduct.sizes
@@ -75,7 +76,7 @@ export async function getServerSideProps(context) {
     sizes: subProduct.sizes,
     discount: subProduct.discount,
     sku: subProduct.sku,
-    colors: product.subProducts.map((p: any) => {
+    colors: product.subProducts.map((p) => {
       return p.color;
     }),
     priceRange: subProduct.discount

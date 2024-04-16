@@ -1,27 +1,27 @@
 import Link from "next/link";
 import styles from "./styles.module.scss";
 import { signOut, signIn } from "next-auth/react";
-export default function UserMenu() {
+export default function UserMenu({ session }) {
   return (
     <div className={styles.menu}>
       <h4>Welcome to Shoppay !</h4>
-      {/* {session ? ( */}
-      <div className={styles.flex}>
-        <img src="" alt="" className={styles.menu__img} />
-        <div className={styles.col}>
-          <span>Welcome Back,</span>
-          <h3>Fsoft academy</h3>
-          <span onClick={() => signOut()}>Sign out</span>
+      {session ? (
+        <div className={styles.flex}>
+          <img src={session.user.image} alt="" className={styles.menu__img} />
+          <div className={styles.col}>
+            <span>Welcome Back,</span>
+            <h3>{session.user.name}</h3>
+            <span onClick={() => signOut()}>Sign out</span>
+          </div>
         </div>
-      </div>
-      {/* ) : ( */}
-      <div className={styles.flex}>
-        <button className={styles.btn_primary}>Register</button>
-        <button className={styles.btn_outlined} onClick={() => signIn()}>
-          Login
-        </button>
-      </div>
-      {/* )} */}
+      ) : (
+        <div className={styles.flex}>
+          <button className={styles.btn_primary}>Register</button>
+          <button className={styles.btn_outlined} onClick={() => signIn()}>
+            Login
+          </button>
+        </div>
+      )}
       <ul>
         <li>
           <Link legacyBehavior href="/profile">
@@ -33,11 +33,11 @@ export default function UserMenu() {
             My Orders
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link legacyBehavior href="/profile/messages">
             Message Center
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link legacyBehavior href="/profile/address">
             Address
@@ -45,7 +45,7 @@ export default function UserMenu() {
         </li>
         <li>
           <Link legacyBehavior href="/profile/whishlist">
-            Whishlist
+            Favorite
           </Link>
         </li>
       </ul>
