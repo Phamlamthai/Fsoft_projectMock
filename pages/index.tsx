@@ -17,7 +17,6 @@ const inter = Inter({ subsets: ["latin"] });
 export default function home({ country, products }) {
   // console.log("products", products);
   const { data: session } = useSession();
-  console.log(session);
 
   return (
     <>

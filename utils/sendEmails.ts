@@ -1,4 +1,4 @@
-import { activateEmailTemplate } from "@/emails/activeEmailTemplate";
+import { activeEmailTemplate } from "@/models/activeEmaillTemplate";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 const { OAuth2 } = google.auth;
@@ -17,16 +17,7 @@ const oauth2Client = new OAuth2(
   OAUTH_PLAYGROUND
 );
 
-export const sendEmail = (
-  to: any,
-  url: any,
-  txt: any,
-  subject: any,
-  template: any
-) => {
-  oauth2Client.setCredentials({
-    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
-  });
+export const sendEmail = (to, url, txt, subject, template) => {
   const accessToken = oauth2Client.getAccessToken();
   const smtpTransport = nodemailer.createTransport({
     service: "gmail",
@@ -43,7 +34,7 @@ export const sendEmail = (
     from: SENDER_EMAIL_ADDRESS,
     to: to,
     subject: subject,
-    html: activateEmailTemplate(to, url),
+    html: activeEmailTemplate(to, url),
   };
   smtpTransport.sendMail(mailOptions, (err, infos) => {
     if (err) return err;
