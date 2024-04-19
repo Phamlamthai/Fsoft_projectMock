@@ -5,14 +5,14 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import Auth0Provider from "next-auth/providers/auth0";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import User from "../../../models/User";
-// import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-// import clientPromise from "./lib/mongodb";
+
 // import bcrypt from "bcrypt";
 import db from "../../../utils/db";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import clientPromise from "./lib/mongodb";
 db.connectDb();
 export default NextAuth({
-  //   adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     // OAuth authentication providers...
     CredentialsProvider({

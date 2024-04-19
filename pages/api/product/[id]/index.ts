@@ -1,9 +1,11 @@
-import nc from "next-connect";
+import { createRouter } from "next-connect";
 import Product from "../../../../models/Product";
 import db from "../../../../utils/db";
-const handler = nc();
+import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
+const router = createRouter<NextApiRequest, NextApiResponse>();
 
-handler.get(async (req, res) => {
+router.get(async (req, res) => {
   try {
     db.connectDb();
     const id = req.query.id;
@@ -33,8 +35,12 @@ handler.get(async (req, res) => {
       quantity: product.subProducts[style].sizes[size].qty,
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.log("error", error);
   }
 });
 
-export default handler;
+export default router.handler({
+  onError: (err, req, event) => {
+    console.error(err.stack);
+  },
+});

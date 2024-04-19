@@ -13,7 +13,7 @@ export default function Empty() {
           SIGN IN / REGISTER
         </button>
       )}
-      <Link href="/browser">
+      <Link legacyBehavior href="/browser">
         <a href="">
           <button className={`${styles.empty__btn} ${styles.empty__btn_v2}`}>
             SHOP NOW
