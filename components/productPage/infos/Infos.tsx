@@ -25,6 +25,7 @@ export default function Infos({ product, setActiveImg }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { cart } = useSelector((state) => ({ ...state }));
+  console.log("cart", cart);
 
   useEffect(() => {
     dispatch(hideDialog());
@@ -46,19 +47,29 @@ export default function Infos({ product, setActiveImg }) {
     const { data } = await axios.get(
       `/api/product/${product._id}?style=${product.style}&size=${router.query.size}`
     );
+
+    // console.log("data", data);
     if (qty > data.quantity) {
       setError(
-        "The Quantity you have choosed is more than in stock. Try and lower the Qty"
+        "The Quantity you have choose is more than in stock. Try and lower the Qty"
       );
     } else if (data.quantity < 1) {
       setError("This Product is out of stock.");
       return;
     } else {
       let _uid = `${data._id}_${product.style}_${router.query.size}`;
-      let exist = cart.cartItems.find((p) => p._uid === _uid);
+      // console.log("_uid:", _uid);
+
+      // Lọc ra các mục không null từ cartItems
+      let filteredCartItems = cart.cartItems.filter((p) => p !== null);
+      // console.log("filteredCartItems", filteredCartItems);
+
+      let exist = filteredCartItems.find((p) => p?._uid === _uid);
+      // console.log("exist:", exist);
+
       if (exist) {
-        let newCart = cart.cartItems.map((p) => {
-          if (p._uid == exist._uid) {
+        let newCart = filteredCartItems.map((p) => {
+          if (p?._uid === exist._uid) {
             return { ...p, qty: qty };
           }
           return p;
@@ -76,41 +87,42 @@ export default function Infos({ product, setActiveImg }) {
       }
     }
   };
-  ///---------------------------------
-  const handleWishlist = async () => {
-    try {
-      if (!session) {
-        return signIn();
-      }
-      const { data } = await axios.put("/api/user/wishlist", {
-        product_id: product._id,
-        style: product.style,
-      });
-      dispatch(
-        showDialog({
-          header: "Product Added to Whishlist Successfully",
-          msgs: [
-            {
-              msg: data.message,
-              type: "success",
-            },
-          ],
-        })
-      );
-    } catch (error) {
-      dispatch(
-        showDialog({
-          header: "Whishlist Error",
-          msgs: [
-            {
-              msg: error.response.data.message,
-              type: "error",
-            },
-          ],
-        })
-      );
-    }
-  };
+
+  //---------------------------------
+  // const handleWishlist = async () => {
+  //   try {
+  //     if (!session) {
+  //       return signIn();
+  //     }
+  //     const { data } = await axios.put("/api/user/wishlist", {
+  //       product_id: product._id,
+  //       style: product.style,
+  //     });
+  //     dispatch(
+  //       showDialog({
+  //         header: "Product Added to Whishlist Successfully",
+  //         msgs: [
+  //           {
+  //             msg: data.message,
+  //             type: "success",
+  //           },
+  //         ],
+  //       })
+  //     );
+  //   } catch (error) {
+  //     dispatch(
+  //       showDialog({
+  //         header: "Whishlist Error",
+  //         msgs: [
+  //           {
+  //             msg: error.response.data.message,
+  //             type: "error",
+  //           },
+  //         ],
+  //       })
+  //     );
+  //   }
+  // };
   return (
     <div className={styles.infos}>
       {/* <DialogModal /> */}

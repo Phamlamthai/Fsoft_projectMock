@@ -8,9 +8,9 @@ import { createActivationToken } from "@/utils/tokens";
 import { sendEmail } from "@/utils/sendEmails";
 import { activateEmailTemplate } from "@/emails/activeEmailTemplate";
 
-const handler = createRouter();
+const router = createRouter();
 
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+router.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await db.connectDb();
     const { name, email, password } = req.body;
@@ -42,4 +42,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 });
 
-export default handler;
+export default router.handler({
+  onError: (err, req, event) => {
+    console.error(err.stack);
+  },
+});
