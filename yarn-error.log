@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/thaipl1607/.nvm/versions/node/v20.12.2/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js add @types/next-connect
+  /Users/thaipl1607/.nvm/versions/node/v20.12.2/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js add rect-spinners
 
 PATH: 
-  /Users/thaipl1607/.nvm/versions/node/v20.12.2/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/opt/homebrew/sbin
+  /Users/thaipl1607/.nvm/versions/node/v20.12.2/bin:/Users/thaipl1607/.nvm/versions/node/v20.12.2/bin:/Users/thaipl1607/.nvm/versions/node/v16.19.1/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/thaipl1607/.nvm/versions/node/v16.19.1/bin:/opt/homebrew/bin:/opt/homebrew/sbin
 
 Yarn version: 
   1.22.19
@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fnext-connect: Not found
+  Error: https://registry.yarnpkg.com/rect-spinners: Not found
       at params.callback [as _callback] (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:66145:18)
       at self.callback (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:140890:22)
       at Request.emit (node:events:518:28)
@@ -43,13 +43,18 @@ npm manifest:
       "@emotion/styled": "^11.11.5",
       "@material-ui/core": "^4.12.4",
       "@mui/material": "^5.15.15",
+      "@next-auth/mongodb-adapter": "^1.1.3",
       "@reduxjs/toolkit": "^2.2.3",
+      "@types/bcrypt": "^5.0.2",
       "@types/express": "^4.17.21",
+      "@types/jsonwebtoken": "^9.0.6",
+      "@types/nodemailer": "^6.4.14",
       "@types/react-redux": "^7.1.33",
       "@types/redux": "^3.6.0",
       "@types/redux-saga": "^0.10.5",
       "axios": "^1.6.8",
       "bcrypt": "^5.1.1",
+      "brcypt": "^1.0.1",
       "express": "^4.19.2",
       "formik": "^2.4.5",
       "googleapis": "^134.0.0",
@@ -542,6 +547,11 @@ Lockfile:
       prop-types "^15.8.1"
       react-is "^18.2.0"
   
+  "@next-auth/mongodb-adapter@^1.1.3":
+    version "1.1.3"
+    resolved "https://registry.yarnpkg.com/@next-auth/mongodb-adapter/-/mongodb-adapter-1.1.3.tgz#531b75f828338ebd73d8539685641a17804d1d77"
+    integrity sha512-nH/may8hntYBlcuxepSsR2b95w6SRnP+c/FFt3KKjdTScNjhrN0zZdlT90nisjG/3gK+MvzMbz/F4Rwpgr9RMA==
+  
   "@next/env@14.2.0":
     version "14.2.0"
     resolved "https://registry.yarnpkg.com/@next/env/-/env-14.2.0.tgz#68f0fcffc3ee65f7917130035e9eb02c00ba46c1"
@@ -711,6 +721,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.4.tgz#0b92dcc0cc1c81f6f306a381f28e31b1a56536e9"
     integrity sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==
   
+  "@types/bcrypt@^5.0.2":
+    version "5.0.2"
+    resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-5.0.2.tgz#22fddc11945ea4fbc3655b3e8b8847cc9f811477"
+    integrity sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==
+    dependencies:
+      "@types/node" "*"
+  
   "@types/body-parser@*":
     version "1.19.5"
     resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.5.tgz#04ce9a3b677dc8bd681a17da1ab9835dc9d3ede4"
@@ -769,6 +786,13 @@ Lockfile:
     resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
     integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
   
+  "@types/jsonwebtoken@^9.0.6":
+    version "9.0.6"
+    resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-9.0.6.tgz#d1af3544d99ad992fb6681bbe60676e06b032bd3"
+    integrity sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==
+    dependencies:
+      "@types/node" "*"
+  
   "@types/mime@^1":
     version "1.3.5"
     resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.5.tgz#1ef302e01cf7d2b5a0fa526790c9123bf1d06690"
@@ -787,6 +811,13 @@ Lockfile:
     integrity sha512-BD+BjQ9LS/D8ST9p5uqBxghlN+S42iuNxjsUGjeZobe/ciXzk2qb1B6IXc6AnRLS+yFJRpN2IPEHMzwspfDJNw==
     dependencies:
       undici-types "~5.26.4"
+  
+  "@types/nodemailer@^6.4.14":
+    version "6.4.14"
+    resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.14.tgz#5c81a5e856db7f8ede80013e6dbad7c5fb2283e2"
+    integrity sha512-fUWthHO9k9DSdPCSPRqcu6TWhYyxTBg382vlNIttSe9M7XfsT06y0f24KHXtbnijPGGRIcVvdKHTNikOI6qiHA==
+    dependencies:
+      "@types/node" "*"
   
   "@types/parse-json@^4.0.0":
     version "4.0.2"
@@ -1276,6 +1307,11 @@ Lockfile:
     integrity sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==
     dependencies:
       fill-range "^7.0.1"
+  
+  brcypt@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/brcypt/-/brcypt-1.0.1.tgz#2fe5788f85c2624cff1c7a861b586f8dbbc7fc7e"
+    integrity sha512-DjzcKFxx3g3F5PPYVNIzIpyAT15WDiJSzCeg5Fa840uI0N3E+RyRhDu5nIkSTbXydqy5F95KgnI/co2LhxCFEA==
   
   bson@^6.4.0, bson@^6.5.0:
     version "6.6.0"
