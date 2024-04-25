@@ -18,7 +18,7 @@ async function connectDb() {
     useUnifiedTopology: true,
   });
   console.log("New connection to the database");
-  connection.isConnected = mongoose.connections[0].readyState;
+  connection.isConnected = db.connections[0].readyState;
 }
 
 async function disconnectDb() {

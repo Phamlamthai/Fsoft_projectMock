@@ -5,9 +5,10 @@ export const saveCart = async (cart: any) => {
     const { data } = await axios.post("/api/user/saveCart", {
       cart,
     });
+    // console.log(data);
     return data;
   } catch (error) {
-    return (error as any).response.data.error.message;
+    return (error as any).response.data.message;
   }
 };
 export const saveAddress = async (address: any, userId: string) => {
