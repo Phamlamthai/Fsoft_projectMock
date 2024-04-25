@@ -8,7 +8,15 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import LoginInput from "@/components/inputs/loginInputs";
 import CircledIconBtn from "@/components/buttons/circledIconBtn";
-import { getProviders, signIn } from "next-auth/react";
+import {
+  getCsrfToken,
+  getProviders,
+  getSession,
+  signIn,
+} from "next-auth/react";
+import axios from "axios";
+import DotLoaderSpinner from "@/components/loaders/dotLoader";
+import Router from "next/router";
 
 // initialvalues
 const initialvalues = {
@@ -22,7 +30,7 @@ const initialvalues = {
   error: "",
   login_error: "",
 };
-export default function Signin({ country, providers }) {
+export default function Signin({ country, providers, callbackUrl, csrfToken }) {
   console.log(providers);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(initialvalues);
@@ -50,9 +58,44 @@ export default function Signin({ country, providers }) {
     login_password: Yup.string().required("Password is required"),
   });
   //registerValidation
-  const registerValidation = Yup.object({});
+  const registerValidation = Yup.object({
+    name: Yup.string()
+      .required("What's your name ?")
+      .min(2, "First name must be between 2 and 16 characters.")
+      .max(16, "First name must be between 2 and 16 characters.")
+      .matches(/^[aA-zZ]/, "Numbers and special characters are not allowed."),
+    email: Yup.string()
+      .required("Please Enter Your Email Address.")
+      .email("Enter a valid email address."),
+    password: Yup.string()
+      .required(
+        "Enter a combination of at least six numbers,letters and punctuation marks."
+      )
+      .min(6, "Password must be at least 6 characters.")
+      .max(36, "Password can't be more than 36 characters"),
+    conf_password: Yup.string()
+      .required("Confirm your password.")
+      .oneOf([Yup.ref("password")], "Passwords must be matched."),
+  });
   //signUpHandler
-  const signUpHandler = async () => {};
+  const signUpHandler = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/auth/signup", {
+        name,
+        email,
+        password,
+      });
+      setUser({ ...user, error: "", success: data.message });
+      setLoading(false);
+      setTimeout(() => {
+        Router.push("/");
+      }, 2000);
+    } catch (error) {
+      setLoading(false);
+      setUser({ ...user, success: "", error: error.response.data.message });
+    }
+  };
   //signInHandler
   const signInHandler = async () => {
     setLoading(true);
@@ -67,10 +110,13 @@ export default function Signin({ country, providers }) {
     if (response?.error) {
       setLoading(false);
       setUser({ ...user, login_error: response?.error });
+    } else {
+      Router.push(callbackUrl, "/");
     }
   };
   return (
     <>
+      {loading && <DotLoaderSpinner loading={loading} />}
       <Header country={country} />
       <div className={styles.login}>
         <div className={styles.login__container}>
@@ -88,7 +134,7 @@ export default function Signin({ country, providers }) {
           <div className={styles.login__form}>
             <h1>Sign In</h1>
             <p>
-              Get access to one of the best Eshopping services in the world.
+              Get access to one of the best E-shopping services in the world.
             </p>
             <Formik
               enableReinitialize
@@ -101,11 +147,11 @@ export default function Signin({ country, providers }) {
             >
               {(form) => (
                 <Form method="post" action="/api/auth/signin/email">
-                  {/* <input
+                  <input
                     type="hidden"
                     name="csrfToken"
                     defaultValue={csrfToken}
-                  /> */}
+                  />
                   <LoginInput
                     type="text"
                     name="login_email"
@@ -135,7 +181,10 @@ export default function Signin({ country, providers }) {
             <div className={styles.login__socials}>
               <span className={styles.or}>Or continue with</span>
               <div className={styles.login__socials_wrap}>
-                {providers.map((provider) => {
+                {providers.map((provider: any) => {
+                  if (provider.name == "Credentials") {
+                    return;
+                  }
                   return (
                     <div className={provider.name}>
                       <button
@@ -218,12 +267,25 @@ export default function Signin({ country, providers }) {
 }
 
 export async function getServerSideProps(context) {
-  const providers = Object.values(await getProviders());
+  const { req, query } = context;
+  const session = await getSession({ req });
+  const { callbackUrl } = query;
+  if (session) {
+    return {
+      redirect: {
+        destination: callbackUrl,
+      },
+    };
+  }
+  const csrfToken = await getCsrfToken(context);
 
+  const providers = Object.values(await getProviders());
   // console.log(providers);
   return {
     props: {
       providers,
+      csrfToken,
+      callbackUrl,
     },
   };
 }

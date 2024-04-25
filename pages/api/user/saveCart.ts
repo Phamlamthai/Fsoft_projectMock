@@ -1,20 +1,33 @@
 import { createRouter } from "next-connect";
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
 import db from "@/utils/db";
 import Product from "@/models/Product";
 import User from "@/models/User";
 import Cart from "@/models/Cart";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
-router.get(async (req, res) => {
+router.post(async (req, res) => {
   try {
     db.connectDb();
     const { cart } = req.body;
+    const session = await getServerSession(req, res, authOptions);
+    console.log("req", session);
+    const { user } = session;
+    // console.log({ cart });
     let products = [];
-    let user = await User.findById(req.user);
-    let existing_cart = await Cart.findOne({ user: user._id });
+    if (!user) {
+      return res.status(400).json({ message: "User not authenticated" });
+    }
+    let dbUser = await User.findById(user.id);
+    if (!dbUser) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+    let existing_cart = await Cart.findOne({ user: dbUser._id });
+    console.log("existing_cart:", existing_cart);
+
     if (existing_cart) {
       await existing_cart.remove();
     }
@@ -40,20 +53,20 @@ router.get(async (req, res) => {
           : price.toFixed(2);
 
       products.push(tempProduct);
-      let cartTotal = 0;
-
-      for (let i = 0; i < products.length; i++) {
-        cartTotal = cartTotal + products[i].price * products[i].qty;
-      }
-      await new Cart({
-        products,
-        cartTotal: cartTotal.toFixed(2),
-        user: user._id,
-      }).save();
     }
+    let cartTotal = 0;
+    for (let i = 0; i < products.length; i++) {
+      cartTotal = cartTotal + products[i].price * products[i].qty;
+    }
+    await new Cart({
+      products,
+      cartTotal: cartTotal.toFixed(2),
+      user: dbUser._id,
+    }).save();
     db.disconnectDb();
   } catch (error) {
-    console.log("error", error);
+    console.log("error:", error);
+    return res.status(500).json({ message: error.message });
   }
 });
 
