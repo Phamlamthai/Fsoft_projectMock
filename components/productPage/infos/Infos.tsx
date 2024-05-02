@@ -6,16 +6,15 @@ import Link from "next/Link";
 import { TbPlus, TbMinus } from "react-icons/tb";
 import { useEffect } from "react";
 import { BsHandbagFill, BsHeart } from "react-icons/bs";
-// import Share from "./share";
-// import Accordian from "./Accordian";
-// import SimillarSwiper from "./SimillarSwiper";
 import axios from "axios";
-// import DialogModal from "../../dialogModal";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCart } from "../../../store/cartSlice";
 import { hideDialog, showDialog } from "../../../store/DialogSlice";
 import { signIn, useSession } from "next-auth/react";
 import Share from "./share/Share";
+import DialogModal from "@/components/dialogModal";
+import Accordian from "./Accordian";
+import { toast } from "react-toastify";
 export default function Infos({ product, setActiveImg }) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -85,47 +84,56 @@ export default function Infos({ product, setActiveImg }) {
           })
         );
       }
+      toast.success("Product added to cart successfully!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
   //---------------------------------
-  // const handleWishlist = async () => {
-  //   try {
-  //     if (!session) {
-  //       return signIn();
-  //     }
-  //     const { data } = await axios.put("/api/user/wishlist", {
-  //       product_id: product._id,
-  //       style: product.style,
-  //     });
-  //     dispatch(
-  //       showDialog({
-  //         header: "Product Added to Whishlist Successfully",
-  //         msgs: [
-  //           {
-  //             msg: data.message,
-  //             type: "success",
-  //           },
-  //         ],
-  //       })
-  //     );
-  //   } catch (error) {
-  //     dispatch(
-  //       showDialog({
-  //         header: "Whishlist Error",
-  //         msgs: [
-  //           {
-  //             msg: error.response.data.message,
-  //             type: "error",
-  //           },
-  //         ],
-  //       })
-  //     );
-  //   }
-  // };
+  const handleWishlist = async () => {
+    try {
+      if (!session) {
+        return signIn();
+      }
+      const { data } = await axios.put("/api/user/wishlist", {
+        product_id: product._id,
+        style: product.style,
+      });
+      dispatch(
+        showDialog({
+          header: "Product Added to Whishlist Successfully",
+          msgs: [
+            {
+              msg: data.message,
+              type: "success",
+            },
+          ],
+        })
+      );
+    } catch (error) {
+      dispatch(
+        showDialog({
+          header: "Whishlist Error",
+          msgs: [
+            {
+              msg: error.response.data.message,
+              type: "error",
+            },
+          ],
+        })
+      );
+    }
+  };
   return (
     <div className={styles.infos}>
-      {/* <DialogModal /> */}
+      <DialogModal />
       <div className={styles.infos__container}>
         <h1 className={styles.infos__name}>{product.name}</h1>
         <h2 className={styles.infos__sku}>{product.sku}</h2>
@@ -192,7 +200,10 @@ export default function Infos({ product, setActiveImg }) {
                 }
                 onMouseLeave={() => setActiveImg("")}
               >
-                <Link href={`/product/${product.slug}?style=${i}`}>
+                <Link
+                  legacyBehavior
+                  href={`/product/${product.slug}?style=${i}`}
+                >
                   <img src={color.image} alt="" />
                 </Link>
               </span>
@@ -226,8 +237,8 @@ export default function Infos({ product, setActiveImg }) {
         {error && <span className={styles.error}>{error}</span>}
         {success && <span className={styles.success}>{success}</span>}
         <Share />
-        {/* <Accordian details={[product.description, ...product.details]} />
-        <SimillarSwiper /> */}
+        <Accordian details={[product.description, ...product.details]} />
+        {/* <SimillarSwiper /> */}
       </div>
     </div>
   );

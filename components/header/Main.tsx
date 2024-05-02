@@ -8,7 +8,8 @@ import { useRouter } from "next/router";
 export default function Main({ searchHandler }) {
   const router = useRouter();
   const [query, setQuery] = useState(router.query.search || "");
-  const { cart } = useSelector((state) => ({ ...state }));
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const cartCount = cartItems.length;
   const handleSearch = (e) => {
     e.preventDefault();
     if (router.pathname !== "/browse") {
@@ -41,7 +42,7 @@ export default function Main({ searchHandler }) {
         <Link legacyBehavior href="/cart">
           <a className={styles.cart}>
             <FaOpencart />
-            <span>0</span>
+            <span>{cartCount}</span>
           </a>
         </Link>
       </div>
