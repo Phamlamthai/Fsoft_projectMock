@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import * as Yup from "yup";
 import { applyCoupon } from "@/requests/user";
-import { Router } from "next/router";
+import { Router, useRouter } from "next/router";
 import axios from "axios";
 import { Form, Formik } from "formik";
 import ShippingInputs from "@/components/inputs/shippingInputs";
@@ -21,6 +21,7 @@ export default function Summary({
   const validateCoupon = Yup.object({
     coupon: Yup.string().required("Please enter a coupon first !"),
   });
+  const router = useRouter();
   const applyCouponHandler = async () => {
     const res = await applyCoupon(coupon);
     if (res.message) {
@@ -48,9 +49,13 @@ export default function Summary({
         totalBeforeDiscount: cart.cartTotal,
         couponApplied: coupon,
       });
-      Router.push(`/order/${data.order_id}`);
+
+      router.push(`/order/${data.order_id}`);
     } catch (error) {
-      setOrder_Error(error.response.data.message);
+      setOrder_Error(
+        error.response?.data?.message ||
+          "An error occurred while placing the order."
+      );
     }
   };
   return (

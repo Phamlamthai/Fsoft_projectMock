@@ -7,14 +7,14 @@ import User from "@/models/User";
 import Cart from "@/models/Cart";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-const router = createRouter<NextApiRequest, NextApiResponse>();
+import auth from "../../../middleware/auth";
+const router = createRouter<NextApiRequest, NextApiResponse>().use(auth);
 
 router.post(async (req, res) => {
   try {
     db.connectDb();
     const { cart } = req.body;
     const session = await getServerSession(req, res, authOptions);
-    console.log("req", session);
     const { user } = session;
     // console.log({ cart });
     let products = [];
@@ -29,8 +29,9 @@ router.post(async (req, res) => {
     console.log("existing_cart:", existing_cart);
 
     if (existing_cart) {
-      await existing_cart.remove();
+      await Cart.findById(existing_cart._id).deleteOne();
     }
+    console.log("sssss");
     for (let i = 0; i < cart.length; i++) {
       let dbProduct = await Product.findById(cart[i]._id).lean();
       let subProduct = dbProduct.subProducts[cart[i].style];
@@ -54,6 +55,7 @@ router.post(async (req, res) => {
 
       products.push(tempProduct);
     }
+    console.log("sasasas");
     let cartTotal = 0;
     for (let i = 0; i < products.length; i++) {
       cartTotal = cartTotal + products[i].price * products[i].qty;
@@ -64,6 +66,8 @@ router.post(async (req, res) => {
       user: dbUser._id,
     }).save();
     db.disconnectDb();
+
+    return res.status(200).json({ products });
   } catch (error) {
     console.log("error:", error);
     return res.status(500).json({ message: error.message });

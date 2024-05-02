@@ -2,7 +2,6 @@ import { createRouter } from "next-connect";
 import Product from "../../../../models/Product";
 import db from "../../../../utils/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 router.get(async (req, res) => {
