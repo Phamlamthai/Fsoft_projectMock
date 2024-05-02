@@ -11,6 +11,7 @@ import { produceWithPatches } from "immer";
 import { useState } from "react";
 import MainSwiper from "@/components/productPage/mainSwiper/MainSwiper";
 import Infos from "@/components/productPage/infos/Infos";
+import Reviews from "@/components/productPage/reviews";
 // import Infos from "../../components/productPage/infos";
 // import Reviews from "../../components/productPage/reviews";
 // import ProductsSwiper from "../../components/productsSwiper";

@@ -5,7 +5,8 @@ import db from "@/utils/db";
 import Category from "@/models/Category";
 import auth from "@/middleware/auth";
 import SubCategory from "@/models/SubCategory";
-const router = createRouter().use(auth);
+import admin from "@/middleware/admin";
+const router = createRouter().use(auth).use(admin);
 router.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { name, parent } = req.body;

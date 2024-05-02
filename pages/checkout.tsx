@@ -22,15 +22,16 @@ export default function Checkout({ cart, user }) {
       setSelectedAddress("");
     }
   }, [addresses]);
+  console.log("selected address:", selectedAddress);
   return (
     <>
       <Header />
       <div className={`${styles.container} ${styles.checkout}`}>
         <div className={styles.checkout__side}>
           <Shipping
-            user={user}
             addresses={addresses}
             setAddresses={setAddresses}
+            user={user}
           />
           <Products cart={cart} />
         </div>

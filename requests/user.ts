@@ -22,7 +22,7 @@ export const saveAddress = async (address: any, userId: string) => {
     return (error as any).response.data.message;
   }
 };
-export const changeActiveAddress = async (id: string) => {
+export const changeActiveAddress = async (id: any) => {
   try {
     const { data } = await axios.put("/api/user/manageAddress", {
       id,
@@ -32,7 +32,7 @@ export const changeActiveAddress = async (id: string) => {
     return (error as any).response.data.message;
   }
 };
-export const deleteAddress = async (id: string) => {
+export const deleteAddress = async (id: any) => {
   try {
     const { data } = await axios.delete("/api/user/manageAddress", {
       data: { id },

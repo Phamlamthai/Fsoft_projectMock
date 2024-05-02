@@ -4,7 +4,8 @@ import db from "@/utils/db";
 
 import auth from "@/middleware/auth";
 import Coupon from "@/models/Coupon";
-const router = createRouter().use(auth);
+import admin from "@/middleware/admin";
+const router = createRouter().use(auth).use(admin);
 router.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { coupon, discount, startDate, endDate } = req.body;

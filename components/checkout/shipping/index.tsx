@@ -42,7 +42,7 @@ const initialValues: InitialValues = {
   country: "",
 };
 export default function Shipping({ user, addresses, setAddresses, profile }) {
-  console.log("addresses:", addresses);
+  //   console.log("addresses:", addresses);
 
   const [shipping, setShipping] = useState(initialValues);
   const [visible, setVisible] = useState(user?.address.length ? false : true);
@@ -96,14 +96,16 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
     setShipping({ ...shipping, [name]: value });
   };
   const saveShippingHandler = async () => {
-    const res = await saveAddress(shipping);
+    const res = await saveAddress(shipping, user._id);
+    setAddresses(res.addresses);
+    setShipping(initialValues);
+    setVisible(false);
+  };
+  const deleteHandler = async (id: any) => {
+    const res = await deleteAddress(id);
     setAddresses(res.addresses);
   };
-  const deleteHandler = async (id) => {
-    const res = deleteAddress(id);
-    setAddresses(res.addresses);
-  };
-  const changeActiveHandler = async (id) => {
+  const changeActiveHandler = async (id: any) => {
     const res = await changeActiveAddress(id);
     setAddresses(res.addresses);
   };
