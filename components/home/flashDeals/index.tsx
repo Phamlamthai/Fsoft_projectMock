@@ -42,7 +42,7 @@ export default function FlashDeals() {
       >
         <div className={styles.flashDeals__list}>
           {flashDealsArray.map((product, index) => (
-            <SwiperSlide>
+            <SwiperSlide key={index} style={{ padding: "0 10px" }}>
               <FlashCard product={product} key={index} />
             </SwiperSlide>
           ))}

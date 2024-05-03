@@ -32,6 +32,7 @@ export default function orders({ user, tab, orders }) {
                 }
               >
                 <Link
+                  legacyBehavior
                   href={`/profile/orders?tab=${tab}&q=${slugify(link.name, {
                     lower: true,
                   })}__${link.filter}`}

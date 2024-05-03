@@ -20,9 +20,10 @@ export default function Item({ item, visible, index }) {
       {show && (
         <ul>
           {item.links.map((link, i) => (
-            <>
+            <div key={i}>
               {link.link.startsWith("/profile/orders") ? (
                 <li
+                  key={i}
                   className={
                     (router.query.q?.split("__")[0] || "") ==
                     slugify(link.name, { lower: true })
@@ -31,6 +32,7 @@ export default function Item({ item, visible, index }) {
                   }
                 >
                   <Link
+                    legacyBehavior
                     href={`${link.link}?tab=${index}&q=${slugify(link.name, {
                       lower: true,
                     })}__${link.filter}`}
@@ -48,6 +50,7 @@ export default function Item({ item, visible, index }) {
                   }
                 >
                   <Link
+                    legacyBehavior
                     href={`${link.link}?tab=${index}&q=${slugify(link.name, {
                       lower: true,
                     })}`}
@@ -56,7 +59,7 @@ export default function Item({ item, visible, index }) {
                   </Link>
                 </li>
               )}
-            </>
+            </div>
           ))}
         </ul>
       )}

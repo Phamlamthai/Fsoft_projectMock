@@ -37,6 +37,28 @@ router.get(async (req, res) => {
     console.log("error", error);
   }
 });
+router.delete(async (req, res) => {
+  console.log("req:", req);
+  try {
+    db.connectDb();
+    const { id } = req.query;
+
+    // Validate product ID (optional for security)
+    if (!id) {
+      return res.status(400).json({ message: "Product ID is required" });
+    }
+    const deletedProduct = await Product.findByIdAndDelete(id);
+    if (!deletedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    db.disconnectDb();
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" }); // Handle errors gracefully
+  }
+});
 
 export default router.handler({
   onError: (err, req, event) => {

@@ -8,6 +8,7 @@ import persistStore from "redux-persist/lib/persistStore";
 import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 let persistor = persistStore(store);
 export default function App({
   Component,
@@ -16,10 +17,10 @@ export default function App({
   return (
     <>
       <Head>
-        <title>Shoppay</title>
-        <meta name="description" content="Shoppay online shopping" />
+        <title>Shopify</title>
+        <meta name="description" content="Shopify online shopping" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon2.ico" />
       </Head>
       <SessionProvider session={session}>
         <Provider store={store}>

@@ -7,7 +7,7 @@ export default function Header() {
     <div className={styles.header}>
       <div className={styles.header__container}>
         <div className={styles.header__left}>
-          <Link legacyBehavior href="">
+          <Link legacyBehavior href="/">
             <img src="../../../logo.png" alt="" />
           </Link>
         </div>

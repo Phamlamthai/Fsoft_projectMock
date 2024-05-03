@@ -43,7 +43,6 @@ const initialValues: InitialValues = {
 };
 export default function Shipping({ user, addresses, setAddresses, profile }) {
   //   console.log("addresses:", addresses);
-
   const [shipping, setShipping] = useState(initialValues);
   const [visible, setVisible] = useState(user?.address.length ? false : true);
   const {
@@ -117,8 +116,8 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
         </div>
       )}
       <div className={styles.addresses}>
-        {addresses?.map((address: any) => (
-          <div style={{ position: "relative" }}>
+        {addresses?.map((address: any, index: any) => (
+          <div key={address._id} style={{ position: "relative" }}>
             <div
               className={styles.address__delete}
               onClick={() => deleteHandler(address._id)}

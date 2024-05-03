@@ -2,17 +2,34 @@ import Layout from "@/components/admin/layout";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
 import db from "@/utils/db";
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../../../styles/products.module.scss";
 import ProductCard from "@/components/admin/products/productCard";
+import axios from "axios";
 export default function All({ products }) {
   console.log(products);
-
+  const [productList, setProductList] = useState(products);
+  const handleDelete = async (id: any) => {
+    try {
+      await axios.delete(`/api/product/${id}`);
+      const updatedProducts = productList.filter(
+        (product: any) => product._id !== id
+      );
+      setProductList(updatedProducts);
+      setProductList(productList);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
   return (
     <Layout>
       <div className={styles.header}>All Products</div>
       {products.map((product: any) => (
-        <ProductCard product={product} key={product._id} />
+        <ProductCard
+          product={product}
+          key={product._id}
+          onDelete={() => handleDelete(product._id)}
+        />
       ))}
     </Layout>
   );

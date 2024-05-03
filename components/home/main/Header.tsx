@@ -6,7 +6,7 @@ export default function Header() {
     <div className={styles.header}>
       <ul>
         <li>
-          <Link legacyBehavior href="">
+          <Link legacyBehavior href="/browse">
             Store
           </Link>
         </li>
@@ -18,6 +18,11 @@ export default function Header() {
         <li>
           <Link legacyBehavior href="">
             Watches
+          </Link>
+        </li>
+        <li>
+          <Link legacyBehavior href="/about">
+            About
           </Link>
         </li>
       </ul>

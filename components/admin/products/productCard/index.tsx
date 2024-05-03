@@ -8,7 +8,10 @@ import Link from "next/link";
 import { TbEdit } from "react-icons/tb";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onDelete }) {
+  const handleDelete = (index: any) => {
+    onDelete(index);
+  };
   return (
     <div className={styles.product}>
       <h1 className={styles.product__name}>{product.name}</h1>
@@ -57,9 +60,17 @@ export default function ProductCard({ product }) {
                 >
                   <AiOutlineEye />
                 </Link>
-                <Link legacyBehavior href="">
+                {/* <Link
+                  legacyBehavior
+                  href=""
+                  onClick={() => handleDelete(i)}
+                  style={{ cursor: "pointer" }}
+                >
                   <RiDeleteBin2Line />
-                </Link>
+                </Link> */}
+                <button onClick={() => handleDelete(i)}>
+                  <RiDeleteBin2Line />
+                </button>
               </div>
             </div>
           </SwiperSlide>

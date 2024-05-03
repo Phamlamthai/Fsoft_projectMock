@@ -1,18 +1,20 @@
 import React from "react";
 import styles from "./styles.module.scss";
 export default function Products({ cart }) {
+  console.log(cart, "cart");
+
   return (
     <div className={styles.products}>
       <div className={styles.products__header}>
         <h1>Cart</h1>
         <span>
-          {cart.products.length == 1
+          {cart.products.length === 1
             ? "1 item"
             : `${cart.products.length} items`}
         </span>
       </div>
       <div className={styles.products__wrap}>
-        {cart.products.map((product: any) => (
+        {cart.products.map((product) => (
           <div className={styles.product}>
             <div className={styles.product__img}>
               <img src={product.image} alt="" />

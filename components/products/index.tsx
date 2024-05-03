@@ -14,6 +14,7 @@ export default function ProductCard({ product }) {
         return a - b;
       })
   );
+
   const [styless, setStyless] = useState(
     product.subProducts.map((p) => {
       return p.color;
@@ -56,14 +57,15 @@ export default function ProductCard({ product }) {
           </h1>
           <span>
             {prices.length === 1
-              ? `USD${prices[0]}$`
-              : `USD${prices[0]}-${prices[prices.length - 1]}$`}
+              ? `USD ${prices[0]}$`
+              : `USD ${prices[0]}-${prices[prices.length - 1]}$`}
           </span>
           <div className={styles.product__colors}>
             {styless &&
               styless.map((style, i) =>
                 style.image ? (
                   <img
+                    key={i}
                     src={style.image}
                     className={i == active && styles.active}
                     onMouseOver={() => {
@@ -74,6 +76,7 @@ export default function ProductCard({ product }) {
                   />
                 ) : (
                   <span
+                    key={i}
                     style={{ backgroundColor: `${style.color}` }}
                     onMouseOver={() => {
                       setImages(product.subProducts[i].images);

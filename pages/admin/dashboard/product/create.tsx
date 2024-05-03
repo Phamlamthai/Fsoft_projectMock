@@ -204,6 +204,10 @@ export default function Create({ parents, categories }) {
       });
       setLoading(false);
       toast.success(data.message);
+      setProduct(initialState);
+      setImages([]);
+      setColorImage("");
+      setDescription_images("");
     } catch (error) {
       setLoading(false);
       toast.error(error.response.data.message);
@@ -223,7 +227,7 @@ export default function Create({ parents, categories }) {
           parent: product.parent,
           sku: product.sku,
           discount: product.discount,
-          color: product.color.color,
+          color: product.color?.color,
           imageInputFile: "",
           styleInout: "",
         }}
